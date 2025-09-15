@@ -1,4 +1,4 @@
-from Tiquetes import mostrar_tiquetes, comprar_tiquete
+from modules.Tiquetes import mostrar_tiquetes, comprar_tiquete
 
 usuarios = {}
 
