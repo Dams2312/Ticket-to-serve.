@@ -1,89 +1,103 @@
-from Menu.tiquetes import Tiquete, mostrar_tiquetes, comprar_tiquete
+import os
+import json
+from typing import Dict
+import modules.Tiquetes as Ti
 
-usuarios = {}
-
-while True:
-    print("\n--- Sistema de Boletos ---")
-    print("1. Registrarse")
-    print("2. Iniciar sesión")
-    print("3. Salir")
+def menu_principal():
+    print("""
+        --------------------------------------
+        --- Sistema de Gestión de Tiquetes ---
+        --------------------------------------
+        1. Registrarse
+        2. Iniciar sesión
+        3. Salir
+        ---------------------------------------
+    """,end="")
     opcion = input("Seleccione una opción: ")
+    return opcion
 
-    if opcion == "1":
-        print("\n--- Registro de Usuario ---")
-        nombre_usuario = input("Nombre de usuario: ")
+def registro(ususarios):
+    usuarios = {}
 
-        if nombre_usuario in usuarios:
-            print("Ese usuario ya existe. Intente con otro.")
-            continue
+    while True:
+        try:
 
-        correo = input("Correo: ")
-        contraseña = input("Contraseña: ")
+            print("\n--- Registro de Usuario ---")
+            nombre_usuario = input("Nombre de usuario: ")
 
-        print("Seleccione tipo de usuario:")
-        print("1. Cliente")
-        print("2. Revendedor")
-        tipo = input("Opción: ")
+            if nombre_usuario in usuarios:
+                print("Ese usuario ya existe. Intente con otro.")
+                continue
+        
+            correo = input("Correo: ")
+            contraseña = input("Contraseña: ")
 
-        if tipo == "1":
-            tipo_usuario = "cliente"
-        elif tipo == "2":
-            tipo_usuario = "revendedor"
-        else:
-            print("Opción no válida.")
-            continue
+            print("Seleccione tipo de usuario:")
+            print("1. Cliente")
+            print("2. Revendedor")
+            tipo = input("Opción: ")
 
-        usuarios[nombre_usuario] = {
-            "correo": correo,
-            "contraseña": contraseña,
-            "tipo": tipo_usuario
-        }
-        print(f"Usuario {nombre_usuario} creado con éxito.\n")
+            if tipo == "1":
+                tipo_usuario = "cliente"
+            elif tipo == "2":
+                tipo_usuario = "revendedor"
+            else:
+                print("Opción no válida.")
+                continue
 
-    elif opcion == "2":
-        print("\n--- Inicio de Sesión ---")
-        nombre_usuario = input("Nombre de usuario: ")
-        contraseña = input("Contraseña: ")
+            usuarios[nombre_usuario] = {
+                "correo": correo,
+                "contraseña": contraseña,
+                "tipo": tipo_usuario
+                }
+            print(f"Usuario {nombre_usuario} creado con éxito.\n")
+        except:
+            print("Error en el registro. Intente de nuevo.\n")
 
-        if nombre_usuario in usuarios and usuarios[nombre_usuario]["contraseña"] == contraseña:
-            print(f"\nInicio de sesión exitoso. Bienvenido {nombre_usuario}.\n")
-            tipo = usuarios[nombre_usuario]["tipo"]
+def sesion(usuarios: Dict):
+    while True:
+        try:
+            print("\n--- Inicio de Sesión ---")
+            nombre_usuario = input("Nombre de usuario: ")
+            contraseña = input("Contraseña: ")
 
-            if tipo == "cliente":
-                while True:
-                    print(f"\n--- Menú Cliente ({nombre_usuario}) ---")
-                    print("1. Ver boletos disponibles")
-                    print("2. Cerrar sesión")
-                    op = input("Seleccione una opción: ")
+            if nombre_usuario in usuarios and usuarios[nombre_usuario]["contraseña"] == contraseña:
+                print(f"\nInicio de sesión exitoso. Bienvenido {nombre_usuario}.\n")
+                tipo = usuarios[nombre_usuario]["tipo"]
 
-                    if op == "1":
-                        mostrar_tiquetes()
-                    elif op == "2":
-                        print("Sesión cerrada.\n")
-                        break
-                    else:
-                        print("Opción no válida.\n")
+                if tipo == "cliente":
+                    while True:
+                        print(f"\n--- Menú Cliente ({nombre_usuario}) ---")
+                        print("1. Ver boletos disponibles")
+                        print("2. Cerrar sesión")
+                        op = input("Seleccione una opción: ")
 
-            elif tipo == "revendedor":
-                while True:
-                    print(f"\n--- Menú Revendedor ({nombre_usuario}) ---")
-                    print("1. Vender un boleto")
-                    print("2. Cerrar sesión")
-                    op = input("Seleccione una opción: ")
+                        if op == "1":
+                            Ti.menu_cliente()
+                        elif op == "2":
+                            print("Sesión cerrada.\n")
+                            break
+                        else:
+                            print("Opción no válida.\n")
 
-                    if op == "1":
-                        comprar_tiquete()
-                    elif op == "2":
-                        print("Sesión cerrada.\n")
-                        break
-                    else:
-                        print("Opción no válida.\n")
+                elif tipo == "revendedor":
+                    while True:
+                        print(f"\n--- Menú Revendedor ({nombre_usuario}) ---")
+                        print("1. Vender un boleto")
+                        print("2. Cerrar sesión")
+                        op = input("Seleccione una opción: ")
 
-        else:
-            print("Usuario o contraseña incorrectos.\n")
+                        if op == "1":
+                            Ti.menu_revendedor()
+                        elif op == "2":
+                            print("Sesión cerrada.\n")
+                            break
+                        else:
+                            print("Opción no válida.\n")
 
-    elif opcion == "3":
-        print("Saliendo del sistema...")
-        break
-    else:
-        print("Opción no válida.\n")
+                else:
+                    print("herror al iniciar.\n")
+            else:
+                print("Usuario o contraseña incorrectos.\n")
+        except:            
+            print("Error en el inicio de sesión. Intente de nuevo.\n")

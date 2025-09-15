@@ -1,31 +1,30 @@
-class Tiquete:
-    def __init__(self, id, nombre_evento, precio, disponible=True):
-        self.id = id
-        self.nombre_evento = nombre_evento
-        self.precio = precio
-        self.disponible = disponible
-
-    def __repr__(self):
-        estado = "Disponible" if self.disponible else "No disponible"
-        return f"<Tiquete {self.id} - {self.nombre_evento} - ${self.precio} - {estado}>"
-
-
+# modules/Tiquetes.py
+# Módulo para manejar la lógica de tiquetes
 TIQUETES = []
 
 def crear_tiquete(id, nombre_evento, precio):
-    tiquete = Tiquete(id, nombre_evento, precio)
+    tiquete = {
+        "id":id,
+        "nombre_evento":nombre_evento,
+        "precio" : precio,
+        "disponible": True
+    }
     TIQUETES.append(tiquete)
     return tiquete
 
 def cambiar_disponibilidad(id, disponible):
     for t in TIQUETES:
-        if t.id == id:
-            t.disponible = disponible
+        if t["id"] == id:
+            t["disponible"] = disponible
             return True
     return False
 
 def obtener_tiquetes_disponibles():
-    return [t for t in TIQUETES if t.disponible]
+    return [t for t in TIQUETES if t["disponible"]]
+
+def mostrar_tiquete(t):
+    estado = "Disponible" if t["disponible"] else "No disponible"
+    return f"<Tiquete {t['id']} - {t['nombre_evento']} - ${t['precio']} - {estado}>"
 
 def menu_revendedor():
     while True:
@@ -71,22 +70,5 @@ def menu_cliente():
         print("No hay tiquetes disponibles.")
     else:
         for t in tiquetes:
-            print(f"Tiquete {t.id} - {t.nombre_evento} - Disponible")
+            print(f"Tiquete {t['id']} - {t['nombre_evento']} - Disponible")
 
-if __name__ == "__main__":
-    while True:
-        print("\n¿Quién eres?")
-        print("1. Revendedor")
-        print("2. Cliente")
-        print("3. Salir")
-        role = input("Elige una opción: ")
-
-        if role == "1":
-            menu_revendedor()
-        elif role == "2":
-            menu_cliente()
-        elif role == "3":
-            print("Adiós")
-            break
-        else:
-            print("Opción inválida. Intenta de nuevo.")
