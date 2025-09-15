@@ -1,92 +1,52 @@
 class Tiquete:
-    def __init__(self, id, nombre_evento, precio, disponible=True):
+    def __init__(self, id, nombre_evento, precio, clase="Económica", disponible=True):
         self.id = id
         self.nombre_evento = nombre_evento
         self.precio = precio
+        self.clase = clase
         self.disponible = disponible
 
     def __repr__(self):
         estado = "Disponible" if self.disponible else "No disponible"
-        return f"<Tiquete {self.id} - {self.nombre_evento} - ${self.precio} - {estado}>"
-
+        return f"<Tiquete {self.id} - {self.nombre_evento} - {self.clase} - ${self.precio} - {estado}>"
 
 TIQUETES = []
+contador_id = 1  
 
-def crear_tiquete(id, nombre_evento, precio):
-    tiquete = Tiquete(id, nombre_evento, precio)
+def crear_tiquete(nombre_evento, precio, clase="Económica"):
+    global contador_id
+    tiquete = Tiquete(contador_id, nombre_evento, precio, clase)
     TIQUETES.append(tiquete)
+    contador_id += 1
     return tiquete
-
-def cambiar_disponibilidad(id, disponible):
-    for t in TIQUETES:
-        if t.id == id:
-            t.disponible = disponible
-            return True
-    return False
 
 def obtener_tiquetes_disponibles():
     return [t for t in TIQUETES if t.disponible]
 
-def menu_revendedor():
-    while True:
-        print("\nOpciones Revendedor:")
-        print("1. Crear tiquete")
-        print("2. Cambiar disponibilidad de tiquete")
-        print("3. Mostrar tiquetes disponibles")
-        print("4. Salir")
-
-        opcion = input("Elija una opción: ")
-
-        if opcion == "1":
-            id = input("ID del tiquete: ")
-            nombre = input("Nombre del evento: ")
-            precio = float(input("Precio: "))
-            crear_tiquete(id, nombre, precio)
-            print("Tiquete creado.")
-
-        elif opcion == "2":
-            id = input("ID del tiquete a cambiar disponibilidad: ")
-            disponible = input("Disponible? (s/n): ").lower() == "s"
-            if cambiar_disponibilidad(id, disponible):
-                print("Disponibilidad actualizada.")
-            else:
-                print("Tiquete no encontrado.")
-
-        elif opcion == "3":
-            tiquetes = obtener_tiquetes_disponibles()
-            print("\nTiquetes disponibles:")
-            for t in tiquetes:
-                print(t)
-
-        elif opcion == "4":
-            break
-
-        else:
-            print("Opción no válida. Intenta de nuevo.")
-
-def menu_cliente():
-    print("\n--- Tiquetes disponibles para el cliente ---")
+def mostrar_tiquetes():
     tiquetes = obtener_tiquetes_disponibles()
     if not tiquetes:
         print("No hay tiquetes disponibles.")
     else:
+        print("\n--- Lista de tiquetes disponibles ---")
         for t in tiquetes:
-            print(f"Tiquete {t.id} - {t.nombre_evento} - Disponible")
+            print(f"ID {t.id} - {t.nombre_evento} - {t.clase} - ${t.precio}")
 
-if __name__ == "__main__":
-    while True:
-        print("\n¿Quién eres?")
-        print("1. Revendedor")
-        print("2. Cliente")
-        print("3. Salir")
-        role = input("Elige una opción: ")
+def vender_tiquete():
+    nombre = input("Nombre del tiquete: ")
+    precio = float(input("Precio: "))
+    clase = input("Clase (Económica, Premium, Primera clase) [opcional]: ")
+    if clase.strip() == "":
+        clase = "Económica"
+    tiquete = crear_tiquete(nombre, precio, clase)
+    print(f"Tiquete {tiquete.nombre_evento} agregado con éxito.")
 
-        if role == "1":
-            menu_revendedor()
-        elif role == "2":
-            menu_cliente()
-        elif role == "3":
-            print("Adiós")
-            break
-        else:
-            print("Opción inválida. Intenta de nuevo.")
+def comprar_tiquete():
+    mostrar_tiquetes()
+    id = input("Ingrese el ID del tiquete que desea comprar: ")
+    for t in TIQUETES:
+        if str(t.id) == id and t.disponible:
+            t.disponible = False
+            print(f"Compra realizada del tiquete {t.nombre_evento}.")
+            return
+    print("Tiquete no disponible o no encontrado.")
