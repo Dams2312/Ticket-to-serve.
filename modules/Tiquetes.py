@@ -26,6 +26,10 @@ def mostrar_tiquete(t):
     estado = "Disponible" if t["disponible"] else "No disponible"
     return f"<Tiquete {t['id']} - {t['nombre_evento']} - ${t['precio']} - {estado}>"
 
+def filtro():
+    filtro = [t for t in TIQUETES if t["disponible"]== True]
+    return filtro
+
 def menu_revendedor():
     while True:
         print("\nOpciones Revendedor:")
@@ -71,4 +75,13 @@ def menu_cliente():
     else:
         for t in tiquetes:
             print(f"Tiquete {t['id']} - {t['nombre_evento']} - Disponible")
+        seleccione = input("Seleccione el ID del tiquete que desea comprar.")
+        if any(t["id"] == seleccione for t in tiquetes):
+            cambiar_disponibilidad(seleccione, False)
+            print("Compra exitosa.")
+        else:
+            print("lo sentimos alquien llego primero...")
+            print ("Te volveremos a mostrar la lista actualizada")
+            print("\n--- Tiquetes disponibles para el cliente ---")
+            print(filtro())
 
