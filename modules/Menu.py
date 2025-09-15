@@ -2,6 +2,10 @@ import os
 import json
 from typing import Dict
 import modules.Tiquetes as Ti
+import modules.datos as dat
+
+sincron = "modules/comprador.json"
+sincro = "modules/vendedor.json"
 
 def menu_principal():
     print("""
@@ -16,7 +20,7 @@ def menu_principal():
     opcion = input("Seleccione una opción: ")
     return opcion
 
-def registro(ususarios):
+def registro(usuarios):
     usuarios = {}
 
     while True:
@@ -50,12 +54,16 @@ def registro(ususarios):
                 "contraseña": contraseña,
                 "tipo": tipo_usuario
                 }
+            if usuarios[tipo]== "cliente":
+                dat.escribir_compra (sincron,usuarios)
+            else:
+                dat.escribir_compra(sincro,usuarios)
             print(f"Usuario {nombre_usuario} creado con éxito.\n")
         except:
             print("Error en el registro. Intente de nuevo.\n")
 
 def sesion(usuarios: Dict):
-    while True:
+    while casa:
         try:
             print("\n--- Inicio de Sesión ---")
             nombre_usuario = input("Nombre de usuario: ")
@@ -69,13 +77,18 @@ def sesion(usuarios: Dict):
                     while True:
                         print(f"\n--- Menú Cliente ({nombre_usuario}) ---")
                         print("1. Ver boletos disponibles")
-                        print("2. Cerrar sesión")
+                        print("2. ver mis bolestos")
+                        print("3. Cerrar sesión")
                         op = input("Seleccione una opción: ")
 
                         if op == "1":
                             Ti.menu_cliente()
                         elif op == "2":
+                            dat.leer_compras(usuarios)
+                            
+                        elif op == "3":
                             print("Sesión cerrada.\n")
+                            casa = False
                             break
                         else:
                             print("Opción no válida.\n")
