@@ -1,89 +1,104 @@
-from Menu.tiquetes import Tiquete, mostrar_tiquetes, comprar_tiquete
+from Tiquetes import mostrar_tiquetes, comprar_tiquete
 
 usuarios = {}
 
-while True:
-    print("\n--- Sistema de Boletos ---")
-    print("1. Registrarse")
-    print("2. Iniciar sesión")
-    print("3. Salir")
-    opcion = input("Seleccione una opción: ")
+def menu_principal():
+    while True:
+        print("\n--- Menú Principal ---")
+        print("1. Registrar Cuenta")
+        print("2. Iniciar Sesión")
+        print("3. Salir")
+        print()
 
-    if opcion == "1":
-        print("\n--- Registro de Usuario ---")
-        nombre_usuario = input("Nombre de usuario: ")
+        opcion = input("Seleccione una opción: ")
 
-        if nombre_usuario in usuarios:
-            print("Ese usuario ya existe. Intente con otro.")
-            continue
+        if opcion == "1":
+            print("\n--- Registro de Usuario ---")
+            nombre_usuario = input("Nombre de usuario: ")
 
-        correo = input("Correo: ")
-        contraseña = input("Contraseña: ")
+            if nombre_usuario in usuarios:
+                print("Este usuario ya existe, intenta con otro.")
+            else:
+                correo = input("Correo: ")
+                contraseña_usuario = input("Contraseña: ")
 
-        print("Seleccione tipo de usuario:")
-        print("1. Cliente")
-        print("2. Revendedor")
-        tipo = input("Opción: ")
+                print("\n¿Qué eres?")
+                print("1. Cliente")
+                print("2. Revendedor")
+                tipo = input("Elige una opción: ")
 
-        if tipo == "1":
-            tipo_usuario = "cliente"
-        elif tipo == "2":
-            tipo_usuario = "revendedor"
-        else:
-            print("Opción no válida.")
-            continue
+                if tipo == "1":
+                    tipo_usuario = "Cliente"
+                elif tipo == "2":
+                    tipo_usuario = "Revendedor"
+                else:
+                    print("Opción inválida, se asignará como Cliente.")
+                    tipo_usuario = "Cliente"
 
-        usuarios[nombre_usuario] = {
-            "correo": correo,
-            "contraseña": contraseña,
-            "tipo": tipo_usuario
-        }
-        print(f"Usuario {nombre_usuario} creado con éxito.\n")
+                usuarios[nombre_usuario] = {
+                    "correo": correo,
+                    "contraseña": contraseña_usuario,
+                    "tipo": tipo_usuario
+                }
+                print(f"Usuario {nombre_usuario} creado con éxito.")
 
-    elif opcion == "2":
-        print("\n--- Inicio de Sesión ---")
-        nombre_usuario = input("Nombre de usuario: ")
-        contraseña = input("Contraseña: ")
+        elif opcion == "2":
+            print("\n--- Iniciar Sesión ---")
+            usuario = input("Usuario: ")
+            contraseña = input("Contraseña: ")
 
-        if nombre_usuario in usuarios and usuarios[nombre_usuario]["contraseña"] == contraseña:
-            print(f"\nInicio de sesión exitoso. Bienvenido {nombre_usuario}.\n")
-            tipo = usuarios[nombre_usuario]["tipo"]
+            if usuario in usuarios and usuarios[usuario]["contraseña"] == contraseña:
+                print(f"\nBienvenido {usuario} ({usuarios[usuario]['tipo']})")
 
-            if tipo == "cliente":
-                while True:
-                    print(f"\n--- Menú Cliente ({nombre_usuario}) ---")
-                    print("1. Ver boletos disponibles")
-                    print("2. Cerrar sesión")
-                    op = input("Seleccione una opción: ")
+                if usuarios[usuario]["tipo"] == "Revendedor":
+                    menu_revendedor(usuario)
+                else:
+                    menu_cliente(usuario)
 
-                    if op == "1":
-                        mostrar_tiquetes()
-                    elif op == "2":
-                        print("Sesión cerrada.\n")
-                        break
-                    else:
-                        print("Opción no válida.\n")
+            else:
+                print("Usuario o contraseña incorrectos.")
 
-            elif tipo == "revendedor":
-                while True:
-                    print(f"\n--- Menú Revendedor ({nombre_usuario}) ---")
-                    print("1. Vender un boleto")
-                    print("2. Cerrar sesión")
-                    op = input("Seleccione una opción: ")
-
-                    if op == "1":
-                        comprar_tiquete()
-                    elif op == "2":
-                        print("Sesión cerrada.\n")
-                        break
-                    else:
-                        print("Opción no válida.\n")
+        elif opcion == "3":
+            print("Saliendo del programa...")
+            break
 
         else:
-            print("Usuario o contraseña incorrectos.\n")
+            print("Opción inválida, intente de nuevo.")
 
-    elif opcion == "3":
-        print("Saliendo del sistema...")
-        break
-    else:
-        print("Opción no válida.\n")
+
+def menu_revendedor(usuario):
+    while True:
+        print(f"\n--- Sistema de Boletos (Revendedor: {usuario}) ---")
+        print("1. Vender un boleto")
+        print("2. Cerrar sesión")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            print("Aquí irá la lógica de vender boleto (otra rama).")
+        elif opcion == "2":
+            print("Cerrando sesión...")
+            break
+        else:
+            print("Opción inválida, intente de nuevo.")
+
+
+def menu_cliente(usuario):
+    while True:
+        print(f"\n--- Sistema de Boletos (Cliente: {usuario}) ---")
+        print("1. Ver boletos disponibles")
+        print("2. Cerrar sesión")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            mostrar_tiquetes()  # función conectada con Tiquetes.py
+        elif opcion == "2":
+            print("Cerrando sesión...")
+            break
+        else:
+            print("Opción inválida, intente de nuevo.")
+
+
+if __name__ == "__main__":
+    menu_principal()
