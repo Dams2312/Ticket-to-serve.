@@ -1,4 +1,4 @@
-from Tiquetes import crear_tiquete, obtener_tiquetes_disponibles
+from modules.Tiquetes import crear_tiquete, obtener_tiquetes_disponibles
 
 usuarios = {}
 
