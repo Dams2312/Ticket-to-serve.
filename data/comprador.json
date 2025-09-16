@@ -1,0 +1,47 @@
+{
+    "Danny": {
+        "correo": "Dams@gmail.com",
+        "contrase\u00f1a": "Dams",
+        "tipo": "revendedor"
+    },
+    "2": {
+        "correo": "2",
+        "contrase\u00f1a": "2",
+        "tipo": "cliente"
+    },
+    "3": {
+        "correo": "3",
+        "contrase\u00f1a": "3",
+        "tipo": "cliente"
+    },
+    "4": {
+        "correo": "4",
+        "contrase\u00f1a": "4",
+        "tipo": "cliente"
+    },
+    "d": {
+        "correo": "d",
+        "contrase\u00f1a": "d",
+        "tipo": "cliente"
+    },
+    "f": {
+        "correo": "f",
+        "contrase\u00f1a": "f",
+        "tipo": "cliente"
+    },
+    "w": {
+        "correo": "w",
+        "contrase\u00f1a": "w",
+        "tipo": "cliente"
+    },
+    "5": {
+        "correo": "5",
+        "contrase\u00f1a": "5",
+        "tipo": "cliente"
+    },
+    "6": {
+        "correo": "",
+        "contrase\u00f1a": "6",
+        "tipo": "cliente"
+    }
+}
