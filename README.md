@@ -1,6 +1,5 @@
 # 🎟️ Ticket to serve
 
-tomen arrreglen el readme.md "🎟️ Ticket to Serve - Servidor de Tiquetes
 Descripción del Proyecto
 
 Ticket to Serve es un sistema centralizado para la gestión y venta de tiquetes (boletos), diseñado como una API que puede ser integrada por revendedores de entradas. El objetivo es facilitar a terceros la venta de tiquetes para eventos, mientras el sistema se encarga de la lógica crítica como la disponibilidad, notificaciones en tiempo real y prevención de duplicidad en compras.
