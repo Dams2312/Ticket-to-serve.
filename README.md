@@ -92,6 +92,10 @@ Contraseña: Dams
 Usuario o contraseña incorrectos.
 
 ```
+
+**BACKLOG**
+[Tablero de Trello](https://trello.com/b/bd0roOTP/venta-de-tichetes)
+
 📌 Notas
 
 - Se recomienda no ejecutar directamente los módulos individuales (como Tiquetes.py). El programa debe iniciarse desde main.py.
