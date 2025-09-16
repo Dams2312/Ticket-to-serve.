@@ -4,8 +4,8 @@ from typing import Dict
 import modules.Tiquetes as Ti
 import modules.datos as dat
 
-sincron = "modules/comprador.json"
-sincro = "modules/vendedor.json"
+sincron = "data/comprador.json"
+sincro = "data/vendedor.json"
 
 def menu_principal():
     print("""
@@ -21,7 +21,8 @@ def menu_principal():
     return opcion
 
 def registro(usuarios):
-    usuarios = {}
+    usuarios.update(dat.leer_compras(sincron))
+    usuarios.update(dat.leer_compras(sincro))
 
     while True:
         try:
@@ -54,15 +55,26 @@ def registro(usuarios):
                 "contraseña": contraseña,
                 "tipo": tipo_usuario
                 }
-            if usuarios[tipo]== "cliente":
+            
+            if tipo_usuario == "cliente":
                 dat.escribir_compra (sincron,usuarios)
+                opcion = input("por favor precione 2 para iniciar sesion: ")
             else:
                 dat.escribir_compra(sincro,usuarios)
-            print(f"Usuario {nombre_usuario} creado con éxito.\n")
-        except:
+            
+            print(f"\nUsuario {nombre_usuario} registrado exitosamente como {tipo_usuario}.\n")
+            
+            return "2"  # Regresar a la opción de iniciar sesión
+        except ValueError:
             print("Error en el registro. Intente de nuevo.\n")
+        except KeyError:
+            print("Error en el registro. Intente de nuevo.\n")
+        except Exception as e:
+            print("Error inesperado. Intente de nuevo.\n")
+            print(f"Error inesperado: {e}")
 
 def sesion(usuarios: Dict):
+    casa = True
     while casa:
         try:
             print("\n--- Inicio de Sesión ---")
@@ -84,7 +96,7 @@ def sesion(usuarios: Dict):
                         if op == "1":
                             Ti.menu_cliente()
                         elif op == "2":
-                            dat.leer_compras(usuarios)
+                            Ti.ver_tiket()
                             
                         elif op == "3":
                             print("Sesión cerrada.\n")
@@ -112,5 +124,8 @@ def sesion(usuarios: Dict):
                     print("herror al iniciar.\n")
             else:
                 print("Usuario o contraseña incorrectos.\n")
-        except:            
+        except  KeyError:            
             print("Error en el inicio de sesión. Intente de nuevo.\n")
+        except Exception as e:
+            print("Error inesperado. Intente de nuevo.\n")
+            print(f"Erreror inesperado: {e}")

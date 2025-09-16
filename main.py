@@ -19,9 +19,14 @@ if __name__ == "__main__":
         try:
             os.system("cls")
             opciones = Me.menu_principal()
+            if opciones == "":
+                nueva_opcion = Me.registro(usuarios)
+                if nueva_opcion:
+                    opciones = nueva_opcion
+            
             match opciones:
                 case "1":
-                    Me.registro()
+                    Me.registro(usuarios)
                 case "2":
                     Me.sesion(usuarios)
                 case "3":
@@ -29,6 +34,7 @@ if __name__ == "__main__":
                     break
                 case _:
                     print("Opción no válida. Intente de nuevo.")
-        except:
-            print("Error inesperado. Intente de nuevo.")
+        except Exception as e:
+            print("Error inesperado en el sistema. Intente de nuevo.")
+            print(f"Error inesperado: {e}")
             continue
