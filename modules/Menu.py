@@ -16,7 +16,7 @@ def menu_principal():
         2. Iniciar sesión
         3. Salir
         ---------------------------------------
-    """,end="")
+    """, end="")
     opcion = input("Seleccione una opción: ")
     return opcion
 
@@ -26,14 +26,13 @@ def registro(usuarios):
 
     while True:
         try:
-
             print("\n--- Registro de Usuario ---")
             nombre_usuario = input("Nombre de usuario: ")
 
             if nombre_usuario in usuarios:
                 print("Ese usuario ya existe. Intente con otro.")
                 continue
-        
+
             correo = input("Correo: ")
             contraseña = input("Contraseña: ")
 
@@ -54,17 +53,17 @@ def registro(usuarios):
                 "correo": correo,
                 "contraseña": contraseña,
                 "tipo": tipo_usuario
-                }
+            }
             
             if tipo_usuario == "cliente":
-                dat.escribir_compra (sincron,usuarios)
-                opcion = input("por favor precione 2 para iniciar sesion: ")
+                dat.escribir_compra(sincron, usuarios)
+                input("Registro exitoso. Presione ENTER para continuar e iniciar sesión...")
             else:
-                dat.escribir_compra(sincro,usuarios)
-            
+                dat.escribir_compra(sincro, usuarios)
+                input("Registro exitoso. Presione ENTER para continuar e iniciar sesión...")
+
             print(f"\nUsuario {nombre_usuario} registrado exitosamente como {tipo_usuario}.\n")
-            
-            return "2"  # Regresar a la opción de iniciar sesión
+            return "2"
         except ValueError:
             print("Error en el registro. Intente de nuevo.\n")
         except KeyError:
@@ -74,8 +73,7 @@ def registro(usuarios):
             print(f"Error inesperado: {e}")
 
 def sesion(usuarios: Dict):
-    casa = True
-    while casa:
+    while True:
         try:
             print("\n--- Inicio de Sesión ---")
             nombre_usuario = input("Nombre de usuario: ")
@@ -89,7 +87,7 @@ def sesion(usuarios: Dict):
                     while True:
                         print(f"\n--- Menú Cliente ({nombre_usuario}) ---")
                         print("1. Ver boletos disponibles")
-                        print("2. ver mis bolestos")
+                        print("2. Ver mis boletos")
                         print("3. Cerrar sesión")
                         op = input("Seleccione una opción: ")
 
@@ -97,11 +95,9 @@ def sesion(usuarios: Dict):
                             Ti.menu_cliente()
                         elif op == "2":
                             Ti.ver_tiket()
-                            
                         elif op == "3":
                             print("Sesión cerrada.\n")
-                            casa = False
-                            break
+                            return None
                         else:
                             print("Opción no válida.\n")
 
@@ -116,16 +112,16 @@ def sesion(usuarios: Dict):
                             Ti.menu_revendedor()
                         elif op == "2":
                             print("Sesión cerrada.\n")
-                            break
+                            return None
                         else:
                             print("Opción no válida.\n")
 
                 else:
-                    print("herror al iniciar.\n")
+                    print("Error al identificar tipo de usuario.\n")
             else:
                 print("Usuario o contraseña incorrectos.\n")
-        except  KeyError:            
+        except KeyError:            
             print("Error en el inicio de sesión. Intente de nuevo.\n")
         except Exception as e:
             print("Error inesperado. Intente de nuevo.\n")
-            print(f"Erreror inesperado: {e}")
+            print(f"Error inesperado: {e}")

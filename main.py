@@ -10,31 +10,37 @@ vender sus tiquetes
 import os
 import json
 from typing import Dict
-import modules.Menu as Me  
+import modules.Menu as Me
 
 usuarios = {}
 
 if __name__ == "__main__":
     while True:
         try:
-            os.system("cls")
+            os.system("clear")  # usa "cls" si es Windows
             opciones = Me.menu_principal()
-            if opciones == "":
-                nueva_opcion = Me.registro(usuarios)
-                if nueva_opcion:
-                    opciones = nueva_opcion
-            
+
             match opciones:
                 case "1":
                     Me.registro(usuarios)
+
                 case "2":
-                    Me.sesion(usuarios)
+                    resultado = Me.sesion(usuarios)  # guardo el retorno
+                    if resultado is None:
+                        print("Error en la sesión. Intente de nuevo.")
+                    else:
+                        print("Sesión iniciada correctamente.")
+
                 case "3":
                     print("Saliendo del sistema...")
-                    break
+                    break  # <-- IMPORTANTE: rompe el bucle
+
                 case _:
-                    print("Opción no válida. Intente de nuevo.")
+                    print("Opción inválida, intente de nuevo.")
+
+            input("\nPresiona Enter para continuar...")
+
         except Exception as e:
-            print("Error inesperado en el sistema. Intente de nuevo.")
-            print(f"Error inesperado: {e}")
-            continue
+            print(f"Ocurrió un error: {e}")
+            break
+
